@@ -8,7 +8,7 @@ class DBController:
     class to interact with the mongoDB databases
     '''
     def __init__(self):
-        uri = f"mongodb+srv://admin:{Config.dbpass}@cluster0.sd2zwqa.mongodb.net/?retryWrites=true&w=majority"
+        uri = "mongodb+srv://admin:gJp1hbBR0wtAJY0u@cluster0.sd2zwqa.mongodb.net/?retryWrites=true&w=majority"
         self.client = pymongo.MongoClient(uri, tlsCAFile=certifi.where())
         db = self.client['project_database']
         self.usersCollection = db['users']

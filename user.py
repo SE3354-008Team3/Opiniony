@@ -23,3 +23,5 @@ class User:
     # setter methods
     def giveAchievement(self, ach):
         self.__achievements.append(ach)
+    def giveAnalysis(self, ach):
+        self.__analyses.append(ach)
