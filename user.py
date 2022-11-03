@@ -18,6 +18,8 @@ class User:
     def getFirstName(self): return self.__fname
     def getLastName(self): return self.__lname
     def getAchievements(self): return self.__achievements
+
+    def getAnalysis(self): return self.__analyses
     def getFriends(self): return self.__friends
 
     # setter methods

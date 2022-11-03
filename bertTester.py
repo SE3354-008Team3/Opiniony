@@ -29,6 +29,8 @@ collection = db['analysis']
 #user = mgr.getUser('nibs',12345)
 #user = mgr.getUser('collinmatz',12345)
 #print(user)
-post = {"_id": 2, "value": analysisVal, "string": analysisString}
-#
-collection.insert_one(post)
+# post = {"_id": 2, "value": analysisVal, "string": analysisString}
+# #
+# collection.insert_one(post)
+user = mgr.getUser('collinmatz', 12345)
+mgr.uploadAnalysis(user, analysisVal, analysisString)

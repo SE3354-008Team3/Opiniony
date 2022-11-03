@@ -13,6 +13,7 @@ class DBController:
         db = self.client['project_database']
         self.usersCollection = db['users']
         self.achievementsCollection = db['achievements']
+        self.analysisCollection = db['analysis']
     
     def createUser(self, username, password, email, fname=None, lname=None):
         '''
@@ -93,12 +94,21 @@ class DBController:
         self.usersCollection.update_one(userData, achData)
         return True
 
-    def uploadAnalysis(self, user, analysis):
+    def uploadAnalysis(self, user, analysisVal, analysisString):
         '''
         upload an analysis for a user
         :param user: (user) the user object
         :param analysis: (analysis) the analysis object
         '''
+        post = {"value": analysisVal, "string": analysisString}
+        self.analysisCollection.insert_one(post)
+        anlName = {'string': analysisString}
+        analy = self.analysisCollection.find_one(anlName)
+        user.giveAnalysis(analy)
+        userData = {'_id': user.getOid()}
+        anlData = {'$set': {'analysis': user.getAnalysis()}}
+        self.usersCollection.update_one(userData, anlData)
+        return True
 
 
 if __name__ == '__main__':
