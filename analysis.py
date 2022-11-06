@@ -70,6 +70,11 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def clickAnalysis(self):
+        url = self.textEdit.toPlainText() # url to web scrape
+        text = self.textEdit_2.toPlainText() # text to analyze
+        # call bertTester using text/url as parameter
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -78,6 +83,8 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Upload Document"))
         self.label_3.setText(_translate("MainWindow", "New Analysis Text"))
         self.pushButton_2.setText(_translate("MainWindow", "Analyze"))
+        self.textEdit.setPlaceholderText(_translate("MainWindow", "Enter URL"))
+        self.textEdit_2.setPlaceholderText(_translate("MainWindow", "Enter text to analyze"))
 
 
 if __name__ == "__main__":
