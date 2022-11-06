@@ -14,11 +14,12 @@ tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncase
 
 model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 
-tokens = tokenizer.encode('It was good but couldve been better. Great', return_tensors='pt')
+tokens = tokenizer.encode('harley pastornak is a horrible person, he drugged me into becoming a well behaved celebrity', return_tensors='pt')
 result = model(tokens)
 result.logits
-analysisString = "It was good but couldve been better. I hate my life"
+#analysisString = "It was good but couldve been better. I hate my life"
 analysisVal = int(torch.argmax(result.logits))+1
+print(analysisVal)
 
 
 
@@ -32,5 +33,5 @@ collection = db['analysis']
 # post = {"_id": 2, "value": analysisVal, "string": analysisString}
 # #
 # collection.insert_one(post)
-user = mgr.getUser('collinmatz', 12345)
-mgr.uploadAnalysis(user, analysisVal, analysisString)
+#user = mgr.getUser('collinmatz', 12345)
+#mgr.uploadAnalysis(user, analysisVal, analysisString)
