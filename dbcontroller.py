@@ -8,7 +8,7 @@ class DBController:
     class to interact with the mongoDB databases
     '''
     def __init__(self):
-        uri = "mongodb+srv://admin:gJp1hbBR0wtAJY0u@cluster0.sd2zwqa.mongodb.net/?retryWrites=true&w=majority"
+        uri = f"mongodb+srv://{Config.dbusername}:{Config.dbpass}@cluster0.sd2zwqa.mongodb.net/?retryWrites=true&w=majority"
         self.client = pymongo.MongoClient(uri, tlsCAFile=certifi.where())
         db = self.client['project_database']
         self.usersCollection = db['users']
@@ -23,12 +23,10 @@ class DBController:
         :param email: (str) the user's email
         :opt param fname: (str) the user's first name
         :opt param lname: (str) the user's last name
-        :returns: (int) the insert id for the document
+        :returns: (int) the insert id for the document, None if failed
         '''
         # check to see if a user already exists with the given username or email address
-        if self.checkIfUserExists(username, email):
-            print('User already exists')
-            return
+        if self.checkIfUserExists(username, email): return None
 
         # each newly created user is assigned an object id by the system to act as the
         #   primary key
@@ -39,7 +37,6 @@ class DBController:
             'fname':fname,
             'lname':lname,
             'achievements':[],
-            'friends':[],
             'analyses':[]
         }
         insertID = self.usersCollection.insert_one(userData)
@@ -63,13 +60,13 @@ class DBController:
         get user data given a username and password
         :param username: (str) the username of the user
         :param password: (str) the password of the user
-        :returns: user object
+        :returns: (user) the user object, populated with data from the database, None if failed
         '''
         userData = {'username':username, 'password':password}
         user = self.usersCollection.find_one(userData, {'password':0})
         if user is not None:
             userObj = User(user['_id'], user['username'], 
-                user['email'], user['fname'], user['lname'], user['friends'], 
+                user['email'], user['fname'], user['lname'], 
                 user['achievements'], user['analyses'])
             return userObj
         return None
@@ -110,8 +107,8 @@ class DBController:
         self.usersCollection.update_one(userData, anlData)
         return True
 
-
 if __name__ == '__main__':
     mgr = DBController()
-    mgr.createUser('collinmatz',12345,'collin.matz.a@gmail.com','Collin','Matz')
-    user = mgr.getUser('collinmatz',12345)
+    # do some testing here
+    # mgr.createUser('test_user', 'test_pass123', 'test@test.com', 'test', 'user')
+    user = mgr.getUser('test_user', 'test_pass123')
