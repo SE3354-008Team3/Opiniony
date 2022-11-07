@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'account.ui'
-#
-# Created by: PyQt5 UI code generator 5.15.7
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from dbcontroller import DBController
 from user import User
