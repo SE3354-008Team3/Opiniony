@@ -1,2 +1,3 @@
 class Config:
-    dbpass = 'gJp1hbBR0wtAJY0u'
+    dbusername = 'admin'
+    dbpass = '12345'
