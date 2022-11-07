@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from sentiClass import SentimentAnalysis
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -58,13 +59,15 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def clickAnalysis(self):
         url = self.textEdit.toPlainText() # url to web scrape
         text = self.textEdit_2.toPlainText() # text to analyze
+        anl = SentimentAnalysis.sentimentAnalysis(text)
+        self.label.setText("Analysis value: " + anl + "\nString: " + text)
+        self.update()
         # call bertTester using text/url as parameter
 
     def retranslateUi(self, MainWindow):
