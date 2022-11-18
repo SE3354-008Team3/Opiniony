@@ -19,3 +19,4 @@ class User:
     def getAchievements(self): return self.__achievements
     def getAnalysis(self): return self.__analyses
     def getEmail(self): return self.__email
+    def giveAnalysis(self, analy): self.__analyses.append(analy)

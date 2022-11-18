@@ -2,9 +2,17 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from dbcontroller import DBController
 from user import User
 
+class Ui_Account(object):
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def analysis(self):
+        from analysis import Ui_MainWindow
+        import sys
+        self.MainWindow = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self.MainWindow, usr)
+        self.MainWindow.show()
+
+    def setupUi(self, MainWindow, user):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -15,6 +23,13 @@ class Ui_MainWindow(object):
         font.setPointSize(18)
         self.label.setFont(font)
         self.label.setObjectName("label")
+        
+        self.pushButton2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton2.setGeometry(QtCore.QRect(50, 20, 93, 28))
+        self.pushButton2.setObjectName("pushButton2")
+        self.pushButton2.clicked.connect(self.analysis)
+        self.pushButton2.clicked.connect(MainWindow.close)
+        
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(90, 160, 121, 28))
         self.pushButton.setObjectName("pushButton")
@@ -62,6 +77,11 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        
+        global usr
+        usr = user
+        #dbc = DBController()
+        #user = dbc.getUser(username, password)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -69,9 +89,13 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         # Get the name of the user and display it on the profile
-        name = User.getFirstName(self) + " " + User.getLastName(self)
+        
+        
+        name = usr.getFirstName() + " " + usr.getLastName()
+        #name = "John"
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", name))
+        self.pushButton2.setText(_translate("MainWindow", "Home"))
         self.pushButton.setText(_translate("MainWindow", "Edit Profile"))
         self.pushButton_2.setText(_translate("MainWindow", "Change Accounts"))
         self.pushButton_3.setText(_translate("MainWindow", "Account Settings"))
@@ -101,7 +125,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
+    ui = Ui_Account()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

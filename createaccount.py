@@ -2,7 +2,24 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from dbcontroller import DBController
 from user import User
 
-class Ui_Dialog(object):
+class Ui_CreateAccount(object):
+
+    def analysis(self):
+        from analysis import Ui_MainWindow
+        import sys
+        self.MainWindow = QtWidgets.QMainWindow()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self.MainWindow, user)
+        self.MainWindow.show()
+        
+    def login(self):
+        from login import Ui_Login
+        import sys
+        self.Dialog = QtWidgets.QDialog()
+        self.ui = Ui_Login()
+        self.ui.setupUi(self.Dialog)
+        self.Dialog.show()
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(445, 410)
@@ -16,6 +33,13 @@ class Ui_Dialog(object):
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(170, 270, 93, 28))
         self.pushButton.setObjectName("pushButton")
+        
+        self.pushButton2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton2.setGeometry(QtCore.QRect(300, 270, 93, 28))
+        self.pushButton2.setObjectName("pushButton2")
+        self.pushButton2.clicked.connect(self.login)
+        self.pushButton2.clicked.connect(Dialog.close)
+        
         self.lineEdit = QtWidgets.QLineEdit(Dialog)
         self.lineEdit.setGeometry(QtCore.QRect(140, 190, 161, 22))
         self.lineEdit.setClearButtonEnabled(False)
@@ -44,6 +68,9 @@ class Ui_Dialog(object):
         self.lineEdit_5.setClearButtonEnabled(False)
         self.lineEdit_5.setObjectName("lineEdit_5")
         
+        global dl
+        dl = Dialog
+        
         self.pushButton.clicked.connect(self.clicked)
         
         self.retranslateUi(Dialog)
@@ -61,8 +88,13 @@ class Ui_Dialog(object):
             self.label.setText("User already exists!")
         else:
             dbc.createUser(username, password, email, fname, lname)
-            self.label.setText("User created successfully")
+            global user
+            user = dbc.getUser(username, password)
+            self.analysis()
+            dl.close()
+            #self.label.setText("User created successfully")
         self.update()
+        
             
     def update(self):
         self.label.adjustSize()
@@ -72,6 +104,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Create Account"))
         self.label.setText(_translate("Dialog", "New Label"))
         self.pushButton.setText(_translate("Dialog", "Confirm"))
+        self.pushButton2.setText(_translate("Dialog", "Login"))
         self.lineEdit.setPlaceholderText(_translate("Dialog", "Username"))
         self.lineEdit_2.setPlaceholderText(_translate("Dialog", "Password"))
         self.label_2.setText(_translate("Dialog", "Enter details to create an account"))
@@ -84,7 +117,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
+    ui = Ui_CreateAccount()
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

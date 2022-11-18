@@ -22,14 +22,14 @@ class SentimentAnalysis:
         result.logits
         #analysisString = "It was good but couldve been better. I hate my life"
         analysisVal = int(torch.argmax(result.logits))+1
-        print(analysisVal)
+        #print(analysisVal)
 
         r = requests.get('https://www.yelp.com/biz/social-brew-cafe-pyrmont')
         soup = BeautifulSoup(r.text, 'html.parser')
         regex = re.compile('.*comment.*')
         results = soup.find_all('p', {'class':regex})
         reviews = [result.text for result in results]
-        print(reviews)
+        #print(reviews)
 
         df = pd.DataFrame(np.array(reviews), columns=['review'])
         df['review'].iloc[0]

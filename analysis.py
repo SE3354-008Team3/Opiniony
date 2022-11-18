@@ -1,8 +1,27 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from sentiClass import SentimentAnalysis
+from dbcontroller import DBController
+from user import User
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+
+    def account(self):
+        from account import Ui_Account
+        import sys
+        self.MainWindow = QtWidgets.QMainWindow()
+        self.ui = Ui_Account()
+        self.ui.setupUi(self.MainWindow, usr)
+        self.MainWindow.show()
+        
+    def results(self):
+        from results import Ui_Results
+        import sys
+        self.Results = QtWidgets.QMainWindow()
+        self.ui = Ui_Results()
+        self.ui.setupUi(self.Results, usr)
+        self.Results.show()
+
+    def setupUi(self, MainWindow, user):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -19,6 +38,12 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(170, 300, 800, 50))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_4.setFont(font)
+        self.label_4.setObjectName("label_2")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(580, 230, 131, 28))
         self.pushButton.setObjectName("pushButton")
@@ -51,6 +76,19 @@ class Ui_MainWindow(object):
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(60, 300, 93, 28))
         self.pushButton_2.setObjectName("pushButton_2")
+        
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(60, 400, 93, 28))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(self.account)
+        self.pushButton_3.clicked.connect(MainWindow.close)
+        
+        self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(60, 450, 93, 28))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.results)
+        self.pushButton_4.clicked.connect(MainWindow.close)
+        
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
@@ -59,25 +97,44 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        
+        self.pushButton_2.clicked.connect(self.clicked)
+
+        global usr
+        usr = user
+        
+        global mw
+        mw = MainWindow
+        
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
 
-    def clickAnalysis(self):
+    def clicked(self):
         url = self.textEdit.toPlainText() # url to web scrape
         text = self.textEdit_2.toPlainText() # text to analyze
         anl = SentimentAnalysis.sentimentAnalysis(text)
-        self.label.setText("Analysis value: " + anl + "\nString: " + text)
+        self.label_4.setText("Analysis value: " + str(anl) + "\nString: " + text)
+        dbc = DBController()
+        dbc.uploadAnalysis(usr, anl, text)
+        #usr.getAnalysis().append(anl)
         self.update()
         # call bertTester using text/url as parameter
+        
+    def update(self):
+        self.label.adjustSize()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Home"))
         self.label_2.setText(_translate("MainWindow", "New Analysis URL"))
+        self.label_4.setText(_translate("MainWindow", "Analysis value: \nString: "))
         self.pushButton.setText(_translate("MainWindow", "Upload Document"))
         self.label_3.setText(_translate("MainWindow", "New Analysis Text"))
         self.pushButton_2.setText(_translate("MainWindow", "Analyze"))
+        self.pushButton_3.setText(_translate("MainWindow", "Account"))
+        self.pushButton_4.setText(_translate("MainWindow", "Results"))
         self.textEdit.setPlaceholderText(_translate("MainWindow", "Enter URL"))
         self.textEdit_2.setPlaceholderText(_translate("MainWindow", "Enter text to analyze"))
 

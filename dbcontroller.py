@@ -103,7 +103,7 @@ class DBController:
         analy = self.analysisCollection.find_one(anlName)
         user.giveAnalysis(analy)
         userData = {'_id': user.getOid()}
-        anlData = {'$set': {'analysis': user.getAnalysis()}}
+        anlData = {'$set': {'analyses': user.getAnalysis()}}
         self.usersCollection.update_one(userData, anlData)
         return True
 
