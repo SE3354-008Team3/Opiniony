@@ -1,22 +1,26 @@
+import sys
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from dbcontroller import DBController
-from user import User
 
-class Ui_Login(object):
+class LoginUI:
+    def __init__(self):
+        # initialize the login window
+        self.loginWindow = QtWidgets.QDialog()
+        self.setupUi(self.loginWindow)
+        self.loginWindow.show()
 
     def analysis(self):
         from analysis import Ui_MainWindow
-        import sys
         self.MainWindow = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow, user)
         self.MainWindow.show()
         
     def createaccount(self):
-        from createaccount import Ui_CreateAccount
-        import sys
+        from createaccount import CreateAccountUI
         self.Dialog = QtWidgets.QDialog()
-        self.ui = Ui_CreateAccount()
+        self.ui = CreateAccountUI()
         self.ui.setupUi(self.Dialog)
         self.Dialog.show()
 
@@ -90,14 +94,4 @@ class Ui_Login(object):
         self.lineEdit.setPlaceholderText(_translate("Dialog", "Username"))
         self.lineEdit_2.setPlaceholderText(_translate("Dialog", "Password"))
         self.label_2.setText(_translate("Dialog", "Enter your username and password"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Login()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
 
