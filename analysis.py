@@ -7,7 +7,6 @@ class Ui_MainWindow(object):
 
     def account(self):
         from account import Ui_Account
-        import sys
         self.MainWindow = QtWidgets.QMainWindow()
         self.ui = Ui_Account()
         self.ui.setupUi(self.MainWindow, usr)
@@ -15,7 +14,6 @@ class Ui_MainWindow(object):
         
     def results(self):
         from results import Ui_Results
-        import sys
         self.Results = QtWidgets.QMainWindow()
         self.ui = Ui_Results()
         self.ui.setupUi(self.Results, usr)

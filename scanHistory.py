@@ -2,12 +2,7 @@ import sys
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QListWidget, QDialog, QApplication, QMessageBox
 from PyQt5.QtCore import Qt
 
-class ScanHistoryWindow:
-
-    class CustomListWidget(QListWidget):
-        def clicked(self, item):
-            QMessageBox.information(self, "ListWidget", "You clicked: " + item.text())
-
+class Ui_ScanHistory:
     def __init__(self, user):
         # initialize the login window
         self.window = QDialog()
@@ -20,8 +15,7 @@ class ScanHistoryWindow:
         scanHistoryLabel.setAlignment(Qt.AlignCenter)
 
         # initialize scan history list from user object
-        self.scansList = self.CustomListWidget()
-        self.scansList.itemClicked.connect(self.scansList.clicked)
+        self.scansList = QListWidget()
 
         analysisList = user.getAnalysis()
         if len(analysisList) > 0:
@@ -30,17 +24,29 @@ class ScanHistoryWindow:
         else:
             self.scansList.addItem("No scans to display")
         
+        self.scansList.itemClicked.connect(lambda item : self.clicked(item.text(), analysisList))
         self.vbox.addWidget(self.scansList)
         self.window.setLayout(self.vbox)
         self.window.show()
+    
+    def clicked(self, text, scans):
+        date, value = "", ""
+        for scan in scans:
+            if scan['string'] == text:
+                date = str(scan['date'])
+                value = str(scan['value'])
+                break
+
+        box = QMessageBox()
+        box.setText('Value: ' + value + '\n' + 'Date: ' + str(date) + '\n' + 'Text: ' + text)
 
 
 if __name__ == '__main__':
     from dbcontroller import DBController
     dbc = DBController()
-    user = dbc.getUser("testuser123", "secretpass123")
-    # dbc.uploadAnalysis(user, 1, "This is an analysis 2")
+    user = dbc.getUser("collinmatz", "secretpass123")
+    # dbc.uploadAnalysis(user, 1, "This is an analysis 234567 with a date!")
 
     app = QApplication(sys.argv)
-    window = ScanHistoryWindow(user)
+    window = Ui_ScanHistory(user)
     sys.exit(app.exec_())

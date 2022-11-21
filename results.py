@@ -1,10 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QListWidget, QMessageBox
+from PyQt5.QtCore import Qt
 
 class Ui_Results(object):
 
     def analysis(self):
         from analysis import Ui_MainWindow
-        import sys
         self.MainWindow = QtWidgets.QMainWindow()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow, usr)
@@ -18,7 +19,7 @@ class Ui_Results(object):
         self.centralwidget.setObjectName("centralwidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(350, 40, 91, 41))
-        self.label.setWordWrap(False)
+        self.label.setWordWrap(True)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(70, 100, 671, 351))
@@ -47,7 +48,8 @@ class Ui_Results(object):
         
         resultText = ""
         for x in user.getAnalysis():
-            resultText += str(x) + "\n"   
+            resultText += "Date: " + str(x['date']) + '\t\t\t' + 'Value: ' + str(x['value']) + '\n\n' + 'Text: ' + x['string'] + '\n\n\n'
+            # resulttext += ''   
         self.label_2.setText(str(resultText))
 
     def retranslateUi(self, Results):

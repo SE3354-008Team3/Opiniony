@@ -1,4 +1,4 @@
-import pymongo, certifi
+import pymongo, certifi, datetime
 
 from config import Config
 from user import User
@@ -97,7 +97,7 @@ class DBController:
         :param user: (user) the user object
         :param analysis: (analysis) the analysis object
         '''
-        post = {"value": analysisVal, "string": analysisString}
+        post = {"value": analysisVal, "string": analysisString, "date":datetime.datetime.now()}
         self.analysisCollection.insert_one(post)
         anlName = {'string': analysisString}
         analy = self.analysisCollection.find_one(anlName)
