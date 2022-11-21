@@ -83,7 +83,9 @@ class CreateAccountUI:
         lname = self.lineEdit_5.text()
         dbc = DBController()
         
-        if dbc.checkIfUserExists(username, email):
+        if username == "" or password == "" or fname == "" or email == "" or lname == "":
+            self.label.setText("Please fill out all fields")
+        elif dbc.checkIfUserExists(username, email):
             self.label.setText("User already exists!")
         else:
             dbc.createUser(username, password, email, fname, lname)
