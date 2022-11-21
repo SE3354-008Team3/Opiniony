@@ -12,10 +12,10 @@ class CreateAccountUI:
         self.MainWindow.show()
         
     def login(self):
-        from login import Ui_Login
+        from login import LoginUI
         import sys
         self.Dialog = QtWidgets.QDialog()
-        self.ui = Ui_Login()
+        self.ui = LoginUI()
         self.ui.setupUi(self.Dialog)
         self.Dialog.show()
 

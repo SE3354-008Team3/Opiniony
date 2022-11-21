@@ -4,11 +4,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from dbcontroller import DBController
 
 class LoginUI:
+    """
     def __init__(self):
         # initialize the login window
         self.loginWindow = QtWidgets.QDialog()
         self.setupUi(self.loginWindow)
         self.loginWindow.show()
+    """
 
     def analysis(self):
         from analysis import Ui_MainWindow
@@ -95,3 +97,11 @@ class LoginUI:
         self.lineEdit_2.setPlaceholderText(_translate("Dialog", "Password"))
         self.label_2.setText(_translate("Dialog", "Enter your username and password"))
 
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = LoginUI()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())
