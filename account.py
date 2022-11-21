@@ -12,6 +12,13 @@ class Ui_Account(object):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow, usr)
         self.MainWindow.show()
+    def achievements(self):
+        from achievements import Ui_Dialog
+        import sys
+        self.window2  = QtWidgets.QMainWindow()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self.window2) #Add user argument
+        self.window2.show()
 
     def setupUi(self, MainWindow, user):
         MainWindow.setObjectName("MainWindow")
@@ -103,6 +110,8 @@ class Ui_Account(object):
         self.label_2.setText(_translate("MainWindow", "Achievements"))
         self.label_3.setText(_translate("MainWindow", "Most Recent Achievement Name"))
         self.pushButton_4.setText(_translate("MainWindow", "View More"))
+        self.pushButton_4.clicked.connect(self.achievements)
+        self.pushButton_4.clicked.connect(MainWindow.close)
         self.label_4.setText(_translate("MainWindow", "Recent Activity"))
         self.pushButton_5.setText(_translate("MainWindow", "View More"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
