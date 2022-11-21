@@ -2,8 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from dbcontroller import DBController
 from user import User
 
-class Ui_CreateAccount(object):
-
+class CreateAccountUI:
     def analysis(self):
         from analysis import Ui_MainWindow
         import sys
