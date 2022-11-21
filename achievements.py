@@ -12,7 +12,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Dialog(object):
-    def setupUi(self, Dialog):
+    def account(self):
+        from account import Ui_Account
+        self.Account = QtWidgets.QMainWindow()
+        self.ui = Ui_Account()
+        self.ui.setupUi(self.Account, usr)
+        self.Account.show()
+
+    def setupUi(self, Dialog, user):
         Dialog.setObjectName("Dialog")
         Dialog.resize(542, 442)
         font = QtGui.QFont()
@@ -78,6 +85,11 @@ class Ui_Dialog(object):
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(80, 70, 75, 23))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.account)
+        self.pushButton.clicked.connect(Dialog.close)
+
+        global usr
+        usr = user
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)

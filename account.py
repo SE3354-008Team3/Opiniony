@@ -12,12 +12,13 @@ class Ui_Account(object):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self.MainWindow, usr)
         self.MainWindow.show()
+
     def achievements(self):
         from achievements import Ui_Dialog
         import sys
         self.window2  = QtWidgets.QMainWindow()
         self.ui = Ui_Dialog()
-        self.ui.setupUi(self.window2) #Add user argument
+        self.ui.setupUi(self.window2, usr) #Add user argument
         self.window2.show()
 
     def setupUi(self, MainWindow, user):
