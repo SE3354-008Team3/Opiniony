@@ -111,7 +111,11 @@ class Ui_MainWindow(object):
     def clicked(self):
         url = self.textEdit.toPlainText() # url to web scrape
         text = self.textEdit_2.toPlainText() # text to analyze
-        anl = SentimentAnalysis.sentimentAnalysis(text)
+        anl = 0
+        if text != "":
+            anl = SentimentAnalysis.sentimentAnalysis(userInput=text)
+        else:
+            anl = SentimentAnalysis.sentimentAnalysis(url=url)
         self.label_4.setText("Analysis value: " + str(anl) + "\nString: " + text)
         dbc = DBController()
         dbc.uploadAnalysis(usr, anl, text)

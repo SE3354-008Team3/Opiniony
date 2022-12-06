@@ -12,7 +12,17 @@ import pandas as pd
 cluster = MongoClient("mongodb+srv://admin:gJp1hbBR0wtAJY0u@cluster0.sd2zwqa.mongodb.net/?retryWrites=true&w=majority")
 #print(cluster)
 class SentimentAnalysis:
-    def sentimentAnalysis(userInput):
+    def sentimentAnalysis(userInput="", url=""):
+        
+        if url != "":
+            r = requests.get(url)
+            soup = BeautifulSoup(r.text, 'html.parser')
+            regex = re.compile('.*comment.*')
+            results = soup.find_all('p', {'class':regex})
+            reviews = [result.text for result in results]
+            userInput = reviews[0]
+
+
         tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 
         model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
@@ -24,11 +34,12 @@ class SentimentAnalysis:
         analysisVal = int(torch.argmax(result.logits))+1
         #print(analysisVal)
 
-        r = requests.get('https://www.yelp.com/biz/social-brew-cafe-pyrmont')
-        soup = BeautifulSoup(r.text, 'html.parser')
-        regex = re.compile('.*comment.*')
-        results = soup.find_all('p', {'class':regex})
-        reviews = [result.text for result in results]
+        # if url != "":
+        #     r = requests.get(url)
+        # soup = BeautifulSoup(r.text, 'html.parser')
+        # regex = re.compile('.*comment.*')
+        # results = soup.find_all('p', {'class':regex})
+        # reviews = [result.text for result in results]
         #print(reviews)
 
         df = pd.DataFrame(np.array(reviews), columns=['review'])
