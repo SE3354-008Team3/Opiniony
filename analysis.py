@@ -113,9 +113,9 @@ class Ui_MainWindow(object):
         text = self.textEdit_2.toPlainText() # text to analyze
         anl = 0
         if text != "":
-            anl = SentimentAnalysis.sentimentAnalysis(userInput=text)
+            anl, _ = SentimentAnalysis.sentimentAnalysis(userInput=text)
         else:
-            anl = SentimentAnalysis.sentimentAnalysis(url=url)
+            anl, text = SentimentAnalysis.sentimentAnalysis(url=url)
         self.label_4.setText("Analysis value: " + str(anl) + "\nString: " + text)
         dbc = DBController()
         dbc.uploadAnalysis(usr, anl, text)

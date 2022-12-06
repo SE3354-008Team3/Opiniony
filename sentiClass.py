@@ -47,12 +47,12 @@ class SentimentAnalysis:
         def sentiment_score(review):
             tokens = tokenizer.encode(review, return_tensors='pt')
             result = model(tokens)
-            return int(torch.argmax(result.logits))+1
+            return int(torch.argmax(result.logits))+1, userInput
         sentiment_score(df['review'].iloc[1])
         df['sentiment'] = df['review'].apply(lambda x: sentiment_score(x[:512]))
         df
         df['review'].iloc[3]
-        return analysisVal
+        return analysisVal, userInput
 
 
 
