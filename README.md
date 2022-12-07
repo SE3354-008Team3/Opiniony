@@ -14,3 +14,5 @@ To run the code:
 1. Clone the repository
 2. Execute this function in your terminal `pip install -r requirements.txt` to install the dependencies
 3. Run the createaccount.py file
+
+*NOTE: The app may take a few seconds in between actions to run.

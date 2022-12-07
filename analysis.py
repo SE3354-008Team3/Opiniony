@@ -1,7 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from sentiClass import SentimentAnalysis
 from dbcontroller import DBController
-from user import User
+import requests
+import re
+from bs4 import BeautifulSoup
 
 class Ui_MainWindow(object):
 
@@ -111,13 +113,20 @@ class Ui_MainWindow(object):
     def clicked(self):
         url = self.textEdit.toPlainText() # url to web scrape
         text = self.textEdit_2.toPlainText() # text to analyze
+
+        if url != '':
+            r = requests.get(url)
+            soup = BeautifulSoup(r.text, 'html.parser')
+            regex = re.compile('.*comment.*')
+            results = soup.find_all('p', {'class':regex})
+            reviews = [result.text for result in results]
+            text = reviews[0]
+        
         anl = SentimentAnalysis.sentimentAnalysis(text)
         self.label_4.setText("Analysis value: " + str(anl) + "\nString: " + text)
-        dbc = DBController()
-        dbc.uploadAnalysis(usr, anl, text)
-        #usr.getAnalysis().append(anl)
+        # dbc = DBController()
+        # dbc.uploadAnalysis(usr, anl, text)
         self.update()
-        # call bertTester using text/url as parameter
         
     def update(self):
         self.label.adjustSize()
